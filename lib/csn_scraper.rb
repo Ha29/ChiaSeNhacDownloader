@@ -42,6 +42,25 @@ module CsnScraper
     end while resp.is_a?(Net::HTTPRedirection)
     puts resp.to_s.green
     download_links = Nokogiri::HTML(html).xpath('//a[@class="download_item"]')
-    download_links.class
+    link = download_links[0]['href']
+    link_sections = link.split('/')
+    link_sections.each_with_index { |r, i|
+      puts "#{i}: #{r}"
+    }
+    quality_320 = link_sections.dup
+    quality_320[-2] = "320"
+    link = quality_320.join('/')
+    uri = URI.parse(link)
+    puts "downloading ..."
+    response = Net::HTTP.get_response(uri)
+    puts "writing ..."
+    Dir.mkdir('downloads/') unless File.exists?('downloads/')
+    File.open('downloads/test.mp3', 'w+') { |file| file.write(response.body)} if response.is_a?(Net::HTTPSuccess)
+    puts "finished!"
   end
+
+  ##
+  #
+  #
+
 end
