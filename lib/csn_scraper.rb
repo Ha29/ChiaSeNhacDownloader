@@ -37,6 +37,15 @@ module CsnScraper
     puts "link: #{mp3_link}"
     begin
       resp = Net::HTTP.get_response(URI.parse(mp3_link))
+#       begin
+#   link = 'https://beta.chiasenhac.vn/mp3/us-uk/us-pop/run-to-you~whitney-houston~ts3wdd76q9mmtk.html'
+#   HTTParty.get(link)
+# rescue OpenSSL::SSL::SSLError => error
+#   puts "change to http"
+#   base_link = link.split('https://')[1]
+#   link = 'http://' + base_link
+#   HTTParty.get(link) 
+# end
       html = Net::HTTP.get(URI.parse(mp3_link))
       mp3_link = resp['location']
     end while resp.is_a?(Net::HTTPRedirection)
