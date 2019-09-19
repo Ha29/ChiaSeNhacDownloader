@@ -64,7 +64,8 @@ module CsnScraper
     response = Net::HTTP.get_response(uri)
     puts "writing ..."
     Dir.mkdir('downloads/') unless File.exists?('downloads/')
-    File.open('downloads/test.mp3', 'w+') { |file| file.write(response.body)} if response.is_a?(Net::HTTPSuccess)
+    song_name = query.split(' ').join('_')
+    File.open("downloads/#{song_name}.mp3", 'w+') { |file| file.write(response.body)} if response.is_a?(Net::HTTPSuccess)
     puts "finished!"
   end
 
